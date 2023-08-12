@@ -1,0 +1,75 @@
+---
+- name: Validação de Pré-Requisitos para Environment Delphix
+  hosts: all
+  gather_facts: yes
+  vars_files:
+    - ./vars.yml
+  tasks:
+    - name: Verificar se o NFS está Instalado
+      command: rpm -q nfs-utils
+      register: nfs_status
+      failed_when: false
+      changed_when: false
+
+    - name: Exibir status da instalação do NFS
+      debug:
+        msg: "{% if 'x86_64' in nfs_status.stdout %}NFS está instalado (OK){% else %}AVISO: NFS não está instalado. Considere instalá-lo para compatibilidade com o ambiente.{% endif %}"
+    # - debug:
+    #     var: nfs_status
+
+    - name: Testar o Comando 'mount'
+      command: mount -V
+      register: mount_status
+      failed_when: false
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Exibir Status do Comando 'mount'
+      debug:
+        msg: "{% if mount_status.rc != 0 %}AVISO: O comando 'mount' não está funcionando corretamente.{% else %}Comando 'mount' está funcionando (OK){% endif %}"
+    # - debug:
+    #     var: mount_status
+
+    - name: Obter Status do SELinux
+      command: getenforce
+      register: selinux_status
+      changed_when: false
+      ignore_errors: yes
+
+    - name: Exibir Status do SELinux
+      debug:
+        msg: "{% if selinux_status.stdout == 'Disabled' %}SELinux está desativado (OK){% else %}AVISO: SELinux está habilitado. Considere desativá-lo para melhor compatibilidade.{% endif %}"
+    # - debug:
+    #     var: selinux_status
+
+    - name: Obter informações sobre o Toolkit Path
+      become: true
+      become_user: "{{ delphix_os }}"
+      stat:
+        path: "{{ toolkit_path }}"
+      register: toolkit_path_info
+      ignore_errors: true
+
+    - name: Exibir Status do Toolkit Path
+      debug:
+        msg: >-
+          {% if toolkit_path_info is defined and toolkit_path_info.stat is defined %}
+            {% if toolkit_path_info.stat.exists %}
+              {% if toolkit_path_info.stat.mode >= "0770" %}
+                {% if toolkit_path_info.stat.uid == lookup('file', '/etc/passwd {{ delphix_os }}') %}
+                  O Toolkit Path '{{ toolkit_path }}' existe com permissões 0770 e pertence ao usuário '{{ delphix_os }}' (OK)
+                {% else %}
+                  AVISO: Toolkit Path '{{ toolkit_path }}' pertence a um usuário diferente do '{{ delphix_os }}'
+                {% endif %}
+              {% else %}
+                AVISO: Toolkit Path '{{ toolkit_path }}' não tem as permissões corretas (mínimo 0770)
+              {% endif %}
+            {% else %}
+              AVISO: Toolkit Path '{{ toolkit_path }}' não existe ou há erro de acesso
+            {% endif %}
+          {% else %}
+            AVISO: Falha ao obter informações sobre o Toolkit Path
+          {% endif %}
+    # - debug:
+    #     var: toolkit_path_info
+

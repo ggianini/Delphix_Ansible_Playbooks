@@ -1,0 +1,15 @@
+---
+- name: copying ssh key and updating sudoers
+  hosts: 192.168.100.31
+  vars_files:
+    - ./vars.yml
+  gather_facts: false
+  remote_user: "{{ delphix_os }}"
+  tasks:
+    - name: copy key to remote hosts
+      authorized_key:
+        user: "{{ delphix_os }}"
+        state: present
+        key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
+
+# esse playbook extrai a chave pública localizada em '/home/ansible/.ssh/id_rsa.pub' e adiciona ao arquivo authorized_key do usuário 'delphix_os'
