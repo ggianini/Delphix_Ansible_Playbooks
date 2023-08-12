@@ -1,14 +1,16 @@
 ---
 - name: copying ssh key and updating sudoers
   hosts: 192.168.100.31
-  vars_files:
-    - ./vars.yml
+  vars_prompt:
+  - name: target_os
+    prompt: Qual o usuário no destino?
+    private: false
   gather_facts: false
-  remote_user: "{{ delphix_os }}"
+  remote_user: "{{ target_os }}"
   tasks:
     - name: copy key to remote hosts
       authorized_key:
-        user: "{{ delphix_os }}"
+        user: "{{ target_os }}"
         state: present
         key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
 

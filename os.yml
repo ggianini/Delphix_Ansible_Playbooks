@@ -4,6 +4,14 @@
   gather_facts: yes
   vars_files:
     - ./vars.yml
+      #vars_prompt:
+      #- name: toolkit_path
+      #prompt: Qual o path para o toolkit no destino?
+      #private: false
+      #- name: delphix_os
+      #prompt: Qual o usuário delphix_os no destino?
+      #private: false
+
   tasks:
     - name: Verificar se o NFS está Instalado
       command: rpm -q nfs-utils
@@ -42,34 +50,36 @@
     # - debug:
     #     var: selinux_status
 
-    - name: Obter informações sobre o Toolkit Path
-      become: true
-      become_user: "{{ delphix_os }}"
-      stat:
-        path: "{{ toolkit_path }}"
-      register: toolkit_path_info
-      ignore_errors: true
 
-    - name: Exibir Status do Toolkit Path
+    - name: Criar diretório {{ toolkit_path }}
+      file:
+        path: "{{ toolkit_path }}"
+        state: directory
+        mode: "0770"
+        owner: "{{ delphix_os }}"
+        group: "{{ delphix_os }}"
+      register: file_info
+
+    - name: Obter Status do diretório {{ toolkit_path }}
       debug:
-        msg: >-
-          {% if toolkit_path_info is defined and toolkit_path_info.stat is defined %}
-            {% if toolkit_path_info.stat.exists %}
-              {% if toolkit_path_info.stat.mode >= "0770" %}
-                {% if toolkit_path_info.stat.uid == lookup('file', '/etc/passwd {{ delphix_os }}') %}
-                  O Toolkit Path '{{ toolkit_path }}' existe com permissões 0770 e pertence ao usuário '{{ delphix_os }}' (OK)
-                {% else %}
-                  AVISO: Toolkit Path '{{ toolkit_path }}' pertence a um usuário diferente do '{{ delphix_os }}'
-                {% endif %}
-              {% else %}
-                AVISO: Toolkit Path '{{ toolkit_path }}' não tem as permissões corretas (mínimo 0770)
-              {% endif %}
-            {% else %}
-              AVISO: Toolkit Path '{{ toolkit_path }}' não existe ou há erro de acesso
-            {% endif %}
-          {% else %}
-            AVISO: Falha ao obter informações sobre o Toolkit Path
-          {% endif %}
-    # - debug:
-    #     var: toolkit_path_info
+        msg: O aquivo {{ toolkit_path }} existe no destino (OK)
+      when: not file_info.failed
+
+    - name: Criar diretório {{ mount_path }}
+      file:
+        path: "{{ mount_path }}"
+        state: directory
+        mode: "0755"
+        owner: "{{ delphix_os }}"
+        group: "{{ delphix_os }}"
+      register: file_info
+    
+    - name: Obter Status do diretório {{ mount_path }}
+      debug:
+        msg: O arquivo {{ mount_path }} existe no destino (OK)
+      when: not file_info.failed
+
+    - name: Exibir valor da variável de ambiente LANG
+      debug:
+        msg: "O valor da variável LANG é: {{ ansible_env.LANG }}"
 
