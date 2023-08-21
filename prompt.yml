@@ -16,5 +16,6 @@
       default: "{{ default_mount_path }}"
       private: false
 
+
   roles:
-    - misc 
+    - create-directories

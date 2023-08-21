@@ -1,0 +1,32 @@
+- name: Get User Info
+  command: "id {{ delphix_os }}"
+  changed_when: false
+  register: user_info
+
+- name: Get {{ delphix_os }} info
+  set_fact:
+    user_groups: "{{ user_info.stdout | regex_findall('groups=([^\\s]+)') | last | split(',') }}"
+
+- name: Return {{ delphix_os }} group list
+  debug:
+    var: user_groups
+
+- name: Display Value of LANG Environment Variable
+  debug:
+    msg: "The value of the LANG environment variable is: {{ ansible_env.LANG }}"
+
+- name: Test 'mount' Command
+  command: mount -V
+  register: mount_status
+  failed_when: false
+  changed_when: false
+  ignore_errors: yes
+
+- name: Display 'mount' command result
+  debug:
+    var: mount_status.stdout
+
+- name: Display 'mount' Command Status
+  debug:
+    msg: "{% if mount_status.rc != 0 %}WARNING: The 'mount' command is not functioning correctly.{% else %}'mount' command is functioning (OK){% endif %}"
+

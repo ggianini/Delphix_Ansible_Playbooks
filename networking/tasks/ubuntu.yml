@@ -1,0 +1,8 @@
+---
+- name: Manage firewall rules for Ubuntu-like OS
+  ufw:
+    rule: "allow"
+    port: "{{ item.port }}/{{ item.protocol }}"
+  loop: "{{ common_ports }}"
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+

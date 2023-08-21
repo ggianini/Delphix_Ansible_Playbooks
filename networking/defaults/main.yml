@@ -1,1 +1,26 @@
+---
+# Define default values here
 ansible_python_interpreter: /usr/bin/python3
+
+common_ports:
+  - { port: 25, protocol: tcp }
+  - { port: 53, protocol: udp }
+  - { port: 123, protocol: udp }
+  - { port: 162, protocol: udp }
+  - { port: 443, protocol: tcp }
+  - { port: 636, protocol: tcp }
+  - { port: 8415, protocol: tcp }
+  - { port: 50001, protocol: tcp }
+  - { port: 22, protocol: tcp }  # SSH
+  - { port: 111, protocol: tcp }  # RPC Port Mapper
+  - { port: 1110, protocol: tcp }  # NFSv3 Server daemon
+  - { port: 2049, protocol: tcp }  # NFS Server daemon
+  - { port: 2049, protocol: udp }  # NFS Server daemon (UDP)
+  - { port: 8341, protocol: tcp }  # Sending data from source to Delphix
+  - { port: 8415, protocol: tcp }  # SnapSync control and data
+  - { port: 54043, protocol: tcp } # NFSv3 mount daemon
+  - { port: 54044, protocol: tcp } # NFSv3 stat daemon
+  - { port: 54045, protocol: tcp } # NFSv3 lock daemon
+  - { port: 33434, protocol: udp } # Traceroute
+  - { port: 33435, protocol: udp } # Traceroute
+

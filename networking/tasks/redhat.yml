@@ -1,0 +1,11 @@
+---
+- name: Manage firewall rules for Red Hat-like OS
+  firewalld:
+    port: "{{ item.port }}/{{ item.protocol }}"
+    permanent: yes
+    state: enabled
+  loop: "{{ common_ports }}"
+  when: ansible_distribution in ["RedHat", "CentOS", "OracleLinux"]
+  register: firewall_result_redhat
+  ignore_errors: yes
+
