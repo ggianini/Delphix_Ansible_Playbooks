@@ -13,17 +13,42 @@
       #private: false
 
   tasks:
-    - name: Verificar se o NFS está Instalado
+
+    - name: Disable firewalld
+      systemd:
+        name: firewalld
+        state: stopped
+      register: firewall_info
+        
+    - name: Get User Info
+      command: "id {{ delphix_os }}"
+      changed_when: false
+      register: user_info
+
+    - name: Get {{ delphix_os }} info
+      set_fact:
+        user_groups: "{{ user_info.stdout | regex_findall('groups=([^\\s]+)') | last | split(',') }}"
+
+    - name: Return {{ delphix_os }} group list
+      debug:
+        var: user_groups 
+          
+    - name: Verify nfs
       command: rpm -q nfs-utils
       register: nfs_status
       failed_when: false
       changed_when: false
+      when: ansible_facts['os_family'] == 'RedHat'
 
     - name: Exibir status da instalação do NFS
       debug:
         msg: "{% if 'x86_64' in nfs_status.stdout %}NFS está instalado (OK){% else %}AVISO: NFS não está instalado. Considere instalá-lo para compatibilidade com o ambiente.{% endif %}"
-    # - debug:
-    #     var: nfs_status
+      when: ansible_facts['os_family'] == 'RedHat'
+
+    - name: Exibir mensagem se NFS estiver instalado no Ubuntu
+      debug:
+        msg: "Lembre-se de validar se o NFS está instalado."
+      when: ansible_facts['os_family'] == 'Debian'
 
     - name: Testar o Comando 'mount'
       command: mount -V
@@ -35,21 +60,18 @@
     - name: Exibir Status do Comando 'mount'
       debug:
         msg: "{% if mount_status.rc != 0 %}AVISO: O comando 'mount' não está funcionando corretamente.{% else %}Comando 'mount' está funcionando (OK){% endif %}"
-    # - debug:
-    #     var: mount_status
 
     - name: Obter Status do SELinux
       command: getenforce
       register: selinux_status
       changed_when: false
       ignore_errors: yes
+      when: ansible_facts['os_family'] == 'RedHat'
 
     - name: Exibir Status do SELinux
       debug:
         msg: "{% if selinux_status.stdout == 'Disabled' %}SELinux está desativado (OK){% else %}AVISO: SELinux está habilitado. Considere desativá-lo para melhor compatibilidade.{% endif %}"
-    # - debug:
-    #     var: selinux_status
-
+      when: ansible_facts['os_family'] == 'RedHat'
 
     - name: Criar diretório {{ toolkit_path }}
       file:
@@ -60,7 +82,7 @@
         group: "{{ delphix_os }}"
       register: file_info
 
-    - name: Obter Status do diretório {{ toolkit_path }}
+    - name: Exibir Status do diretório {{ toolkit_path }}
       debug:
         msg: O aquivo {{ toolkit_path }} existe no destino (OK)
       when: not file_info.failed
@@ -74,7 +96,7 @@
         group: "{{ delphix_os }}"
       register: file_info
     
-    - name: Obter Status do diretório {{ mount_path }}
+    - name: Exibir Status do diretório {{ mount_path }}
       debug:
         msg: O arquivo {{ mount_path }} existe no destino (OK)
       when: not file_info.failed

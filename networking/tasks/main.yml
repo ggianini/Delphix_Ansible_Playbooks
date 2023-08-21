@@ -1,0 +1,58 @@
+---
+# Tasks for Red Hat-like OS (firewalld)
+- name: Disable SELinux
+  ansible.posix.selinux:
+    state: disabled
+  when: ansible_distribution in ["RedHat", "CentOS", "OracleLinux"]
+
+# Check if firewalld is active (Red Hat-like OS)
+- name: Check if firewalld is active (Red Hat)
+  command: systemctl is-active firewalld
+  register: firewalld_active
+  changed_when: false
+  failed_when: false
+  when: ansible_distribution in ["RedHat", "CentOS", "OracleLinux"]
+
+# Allow outgoing ports for Red Hat-like OS
+- name: Allow outgoing ports for Red Hat-like OS
+  firewalld:
+    port: "{{ item.port }}/{{ item.protocol }}"
+    permanent: yes
+    state: enabled
+  loop:
+    - { port: 25, protocol: tcp }
+    - { port: 53, protocol: udp }
+    - { port: 123, protocol: udp }
+    - { port: 162, protocol: udp }
+    - { port: 443, protocol: tcp }
+    - { port: 636, protocol: tcp }
+    - { port: 8415, protocol: tcp }
+    - { port: 50001, protocol: tcp }
+  when: ansible_distribution in ["RedHat", "CentOS", "OracleLinux"] and firewalld_active.stdout == "active"
+
+# Tasks for Ubuntu-like OS (ufw)
+
+# Check if ufw is active (Ubuntu-like OS)
+- name: Check if ufw is active (Ubuntu)
+  command: systemctl is-active ufw
+  register: ufw_active
+  changed_when: false
+  failed_when: false
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
+# Allow outgoing ports for Ubuntu-like OS
+- name: Allow outgoing ports for Ubuntu-like OS
+  ufw:
+    rule: "allow"
+    port: "{{ item.port }}/{{ item.protocol }}"
+  loop:
+    - { port: 25, protocol: tcp }
+    - { port: 53, protocol: udp }
+    - { port: 123, protocol: udp }
+    - { port: 162, protocol: udp }
+    - { port: 443, protocol: tcp }
+    - { port: 636, protocol: tcp }
+    - { port: 8415, protocol: tcp }
+    - { port: 50001, protocol: tcp }
+  when: ansible_distribution in ["Ubuntu", "Debian"] and ufw_active.stdout == "active"
+

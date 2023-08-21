@@ -1,6 +1,6 @@
 ---
 - name: copying ssh key and updating sudoers
-  hosts: 192.168.100.31
+  hosts: targets
   vars_prompt:
   - name: target_os
     prompt: Qual o usuário no destino?
