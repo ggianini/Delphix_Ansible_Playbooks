@@ -22,7 +22,7 @@ We value teamwork! Contribute to this repository by forking it, making your impr
 
 ## 📜 License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [Apache License, Version 2.0](LICENSE). You may obtain a copy of the license [here](http://www.apache.org/licenses/LICENSE-2.0).
 
 ## 📂 Repository Structure
 
