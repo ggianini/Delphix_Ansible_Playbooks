@@ -1,5 +1,10 @@
 # tasks/main.yml
 
+- name: Check if {{ toolkit_path }} directory exists
+  stat:
+    path: "{{ toolkit_path }}"
+  register: toolkit_directory
+
 - name: Create {{ toolkit_path }} directory
   file:
     path: "{{ toolkit_path }}"
@@ -7,7 +12,12 @@
     mode: "0770"                  # Set directory permissions
     owner: "{{ delphix_os }}"     # Set directory owner
     group: "{{ delphix_os }}"     # Set directory group
-  register: file_info
+  when: toolkit_directory.stat.exists == false
+
+- name: Check if {{ mount_path }} directory exists
+  stat:
+    path: "{{ mount_path }}"
+  register: mount_directory
 
 - name: Create {{ mount_path }} directory
   file:
@@ -16,5 +26,5 @@
     mode: "0755"                  # Set directory permissions
     owner: "{{ delphix_os }}"     # Set directory owner
     group: "{{ delphix_os }}"     # Set directory group
-  register: file_info
+  when: mount_directory.stat.exists == false
 

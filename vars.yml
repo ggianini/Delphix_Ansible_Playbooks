@@ -1,6 +1,1 @@
-toolkit_path: /home/postgres/toolkit
-mount_path: /mnt/provision
-delphix_os: postgres
-root_os: root
-
-
+# you can pass specific vars here

@@ -1,0 +1,4 @@
+default_mount_path: /mnt/provision
+default_delphix_os: delphix
+default_toolkit_path: /var/opt/delphix/toolkit
+

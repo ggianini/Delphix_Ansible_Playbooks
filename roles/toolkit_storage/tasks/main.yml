@@ -1,0 +1,29 @@
+---
+- name: Get filesystem facts
+  stat:
+    path: "{{ toolkit_path }}"
+  register: file_stat
+
+- name: Check if directory exists
+  assert:
+    that:
+      - file_stat.stat.exists
+    success_msg: "The directory '{{ toolkit_path }}' exists"
+    fail_msg: "The directory '{{ toolkit_path }}' does not exist"
+
+
+- name: Get free space #result in bytes
+  shell: df -B1 "{{ toolkit_path }}" | tail -n 1 | awk '{print $4}'
+  register: free_space_bytes
+  changed_when: false
+
+- name: Display free space
+  debug:
+    msg: "The path '{{ toolkit_path }}' has {{ (free_space_bytes.stdout | int / (1024*1024*1024)) | round(2) | string + ' GB' }} free space available"
+
+- name: Check if free space >= 1.5 GB
+  assert:
+    that:
+      - (free_space_bytes.stdout | int / (1024*1024*1024)) | round(2) >= 1.5
+    fail_msg: "Insufficient free space in {{ toolkit_path }}, it should have at least 1.5 GB available"
+    success_msg: "The path '{{ toolkit_path }}' has {{ (free_space_bytes.stdout | int / (1024*1024*1024)) | round(2) | string + ' GB' }} free space available, more than the required 1.5 GB"

@@ -27,6 +27,9 @@
     var: mount_status.stdout
 
 - name: Display 'mount' Command Status
-  debug:
-    msg: "{% if mount_status.rc != 0 %}WARNING: The 'mount' command is not functioning correctly.{% else %}'mount' command is functioning (OK){% endif %}"
+  assert:
+    that: 
+      - mount_status.rc == 0
+    success_msg: command mount is functioning
+    fail_msg: command mount is not functioning
 

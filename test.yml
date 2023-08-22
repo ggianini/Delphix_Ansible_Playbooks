@@ -16,6 +16,9 @@
       default: "{{ default_mount_path }}"
       private: false
 
-
   roles:
-    - create-directories
+          # - packages
+          #- networking
+          #- create-directories
+          #- toolkit_storage 
+    - misc
