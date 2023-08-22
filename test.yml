@@ -19,8 +19,8 @@
       private: false
 
   roles:
-   - sudo
-    #  - packages
+    #  - sudo
+    - packages
     #  - networking
     #  - create-directories
     #  - toolkit_storage 
