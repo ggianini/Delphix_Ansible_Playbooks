@@ -31,6 +31,49 @@ Let's navigate through the repository's structure:
 - 📄 `test.yml`: A testing ground playbook, perfect for setting your course.
 - 📄 `vars.yml`: Your playbook's treasure chest - fill it with variables and configurations.
 
+## Roles
+
+This repository includes several roles that serve as building blocks for your Ansible tasks. Each role is designed to handle specific tasks efficiently. Here's an overview of the roles and their responsibilities:
+
+### 📁 Create Directories
+
+This role is responsible for creating essential directories required for delphix usage. It ensures proper setup of toolkit storage and mount paths.
+
+- [Role Details](roles/create-directories/README.md)
+
+### 🛠️ Miscellaneous Tasks
+
+This role handles various miscellaneous tasks, such as gathering user information, displaying environment variables, and testing commands.
+
+- [Role Details](roles/misc/README.md)
+
+### 🌐 Networking Configuration
+
+This role takes care of configuring firewalls for both Red Hat and Ubuntu-like operating systems, enabling the ports necessary for Delphix usage.
+
+- [Role Details](roles/networking/README.md)
+
+### 📦 Package Installation
+
+Equipping your environment with the right packages is crucial. This role installs necessary packages and prepares your system for action.
+
+- [Role Details](roles/packages/README.md)
+
+### 🔑 Sudo Configuration
+
+Granting necessary privileges is important for smooth operations. This role configures the `delphix_os` user for `sudo` access to the specific commands needed.
+
+- [Role Details](roles/sudo/README.md)
+
+### 🧰 Toolkit Storage
+
+Your toolkit storage holds essential tools for your tasks. This role ensures your toolkit storage has enough space for your needs.
+
+- [Role Details](roles/toolkit_storage/README.md)
+
+Each role serves a specific purpose, contributing to the overall efficiency of your Ansible operations. Check each role's README for more details on their tasks and functionalities.
+
+
 ## Usage
 
 Time to set sail! Here's your ship's manual:
@@ -58,7 +101,7 @@ Time to set sail! Here's your ship's manual:
     ansible-playbook -i inventory -e @vars.yml playbook.yml
     ```
 
-    Replace `playbook.yml` with the name of your chosen playbook.
+    Replace `playbook.yml` with the name of your chosen playbook. (test.yml is a good example to start)
 
     ⚠️ **Pro Tip**: Configure inventory and vars_file directly in `ansible.cfg` for a smoother voyage.
 
