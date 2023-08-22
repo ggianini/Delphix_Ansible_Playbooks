@@ -2,3 +2,27 @@
 default_delphix_os: delphix
 default_toolkit_path: /home/delphix/toolkit 
 default_mount_path: /mnt/provision
+redhat_packages:
+  - wget
+  - curl
+  - unzip
+  - tar
+  - sudo
+  - jq
+  - java-1.8.0-openjdk
+  - net-tools
+  - telnet
+  - rpcbind
+  - nfs-utils
+ubuntu_packages:
+  - wget
+  - curl
+  - unzip
+  - tar
+  - sudo
+  - jq
+  - openjdk-8-jdk
+  - net-tools
+  - telnet
+  - rpcbind
+  - nfs-common

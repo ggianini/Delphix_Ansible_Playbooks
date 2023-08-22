@@ -1,38 +1,52 @@
-Role Name
-=========
+# 📦 Packages Role
 
-A brief description of the role goes here.
+Welcome to the documentation for the **Packages Role**! This role handles package installation and service configuration on target hosts, streamlining your Delphix setup by automating these essential tasks.
 
-Requirements
-------------
+## 🌟 Role Overview
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The **Packages Role** ensures the installation of necessary packages and the configuration of services for a seamless Delphix deployment.
 
-Role Variables
---------------
+## ⚙️ Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The role relies on variables found in `defaults/main.yml`:
 
-Dependencies
-------------
+- `redhat_packages`: List of packages for Red Hat-like distributions.
+- `ubuntu_packages`: List of packages for Ubuntu-like distributions.
+- `default_delphix_os`: Default Delphix OS user.
+- `default_toolkit_path`: Default path for the Delphix toolkit.
+- `default_mount_path`: Default path for hosting virtual database files.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## 🚀 Getting Started
 
-Example Playbook
-----------------
+To use the role:
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+1. Adjust variables in `defaults/main.yml` to match your environment.
+2. Run the playbook:
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+   ```bash
+   ansible-playbook -i inventory -e @vars.yml playbook.yml
+   ```
 
-License
--------
+   Replace `playbook.yml` with your chosen playbook's name.
 
-BSD
+3. Role tasks manage package installation and service configuration based on the target OS.
 
-Author Information
-------------------
+## Role Functionality
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+The **Packages Role** accomplishes two key tasks:
+
+1. 📦 **Install Packages**: Installs necessary packages based on the target operating system using package managers like `yum` (for Red Hat) and `apt` (for Ubuntu).
+
+2. 🚀 **Start and Enable Services**: Initiates and enables services needed by Delphix using the `systemd` module. 
+
+## 📖 Further Resources
+
+For detailed insights into package management and service setup, consult the official Delphix documentation:
+
+- [Delphix Documentation](https://docs.delphix.com)
+
+Always refer to the documentation and the role's `README.md` for up-to-date configurations and enhancements.
+
+---
+**Pro Tip**: Stay updated with Delphix documentation to adapt to evolving needs and updates. Tailor the package list to match your deployment requirements.
+

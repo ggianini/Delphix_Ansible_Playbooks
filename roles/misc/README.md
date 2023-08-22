@@ -1,38 +1,67 @@
-Role Name
-=========
+# 🛠️ Miscellaneous Role
 
-A brief description of the role goes here.
+Welcome to the "Miscellaneous" role documentation! This role covers a variety of tasks that provide useful information and perform checks on the hosts. Let's dive into the details of this role and see how it helps ensure smooth operations.
 
-Requirements
-------------
+## 🌟 Role Overview
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The "Miscellaneous" role encompasses various tasks to gather essential information about the 'delphix_os' user and the system environment. Additionally, it performs tests to verify the availability of important commands.
 
-Role Variables
---------------
+## ⚙️ Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The role leverages default variables to define paths and user information.
 
-Dependencies
-------------
+- `default_delphix_os`: Default user name (e.g., delphix)
+- `default_toolkit_path`: Default toolkit path (e.g., /var/opt/delphix/toolkit)
+- `default_mount_path`: Default mount path (e.g., /mnt/provision)
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+## 🚀 How to Use
 
-Example Playbook
-----------------
+1. **Include the Role**: In your playbook, include the `misc` role.
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+2. **Run the Playbook**: Execute your playbook to perform tasks related to user information, system checks, and command availability.
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+```yaml
+# Example playbook usage
+- name: Playbook to Execute Miscellaneous Tasks
+  hosts: your_target_hosts
+  roles:
+    - misc
+```
 
-License
--------
+## 📝 Example Playbook
 
-BSD
+Here's a quick example playbook snippet:
 
-Author Information
-------------------
+```yaml
+- name: Execute Miscellaneous Tasks
+  hosts: delphix_hosts
+  roles:
+    - misc
+```
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+## 📑 Task Details
+
+The tasks within this role cover a range of activities:
+
+- Gathering user information
+- Obtaining user group information
+- Displaying environment variables
+- Testing the availability of the 'mount' command
+- Verifying the status of the 'mount' command
+
+Feel free to explore the role's tasks in the `tasks/main.yml` file for a comprehensive look at what each task accomplishes.
+
+## 🔄 Role Evolution
+
+The "Miscellaneous" role is designed to evolve over time. New tasks will be periodically added to address emerging needs. Additionally, certain tasks might get migrated to more specialized roles for better organization. 
+
+Stay informed about the changes by keeping an eye on the README and changelogs. Regularly updating and adapting your usage of this role will help you stay aligned with evolving best practices.
+
+## 📖 Always Refer to Delphix Documentation
+
+For updates, specific requirements, and customization according to different Delphix versions, it's recommended to refer to the official Delphix documentation at [docs.delphix.com](https://docs.delphix.com). The Delphix documentation will provide insights into adapting to evolving Delphix environments and optimizing your operations.
+
+Make the most out of the "Miscellaneous" role to gather insights and ensure the availability of essential commands!
+
+---
+

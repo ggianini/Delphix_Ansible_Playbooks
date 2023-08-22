@@ -1,38 +1,58 @@
-Role Name
-=========
+# 🌐 Networking Configuration Role
 
-A brief description of the role goes here.
+Welcome to the "Networking Configuration" role documentation! This role takes care of configuring firewall rules for both Red Hat-like and Ubuntu-like operating systems, ensuring seamless network management. Let's dive into how this role contributes to your Delphix setup.
 
-Requirements
-------------
+## 🔥 Firewall Configuration
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This role manages the firewall rules to ensure proper network communication. It handles the setup for both Red Hat-like and Ubuntu-like systems.
 
-Role Variables
---------------
+### 🌐 Role Compatibility
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The "Networking Configuration" role works with both Red Hat-like and Ubuntu-like operating systems.
 
-Dependencies
-------------
+## ⚙️ Role Variables
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+The role includes variables that determine the firewall ports to be opened on the system.
 
-Example Playbook
-----------------
+- `common_ports`: A list of common ports for Red Hat-like systems and Ubuntu-like systems.
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+You can customize these variables as needed.
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+## 🚀 How to Use
 
-License
--------
+1. **Include the Role**: In your playbook, include the `networking` role.
 
-BSD
+2. **Customize Variables**: If needed, modify the role variables in your playbook or in the `defaults/main.yml` file.
 
-Author Information
-------------------
+3. **Run the Playbook**: Execute your playbook to configure the firewall rules.
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+```yaml
+# Example playbook usage
+- name: Playbook to Configure Firewall
+  hosts: your_target_hosts
+  roles:
+    - networking
+```
+
+## 📝 Example Playbook
+
+Here's a quick example playbook snippet:
+
+```yaml
+- name: Configure Firewall for Delphix
+  hosts: delphix_hosts
+  roles:
+    - networking
+```
+
+## 🔑 Important Notes
+
+Network security is crucial. Always review and adjust firewall rules according to your organization's policies.
+
+Feel free to explore this role's tasks in the `tasks/main.yml` file for an in-depth look at the actions being taken.
+
+Automate successfully and ensure secure network communication in your Delphix environment!
+
+---
+**Pro Tip**: Adapt the role variables to fit your network's requirements and ensure robust security.
+

@@ -1,38 +1,57 @@
-Role Name
-=========
+# 👑 Sudo Access Role
 
-A brief description of the role goes here.
+Welcome to the "Sudo Access" role documentation! This role is responsible for providing specific command access to the user 'delphix_os' to execute necessary operations on the hosts. Let's delve into how this role facilitates granting the right permissions.
 
-Requirements
-------------
+## 🌟 Role Overview
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+The "Sudo Access" role is designed to empower the 'delphix_os' user with selective command execution privileges. It ensures the user can perform essential operations without entering a password.
 
-Role Variables
---------------
+## ⚙️ Role Variables
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+The role includes variables that determine the commands the 'delphix_os' user can execute without requiring a password.
 
-Dependencies
-------------
+- `commands`: A list of commands that 'delphix_os' can run with escalated privileges.
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+You can customize this list of commands to match the necessary operations.
 
-Example Playbook
-----------------
+## 🚀 How to Use
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+1. **Include the Role**: In your playbook, include the `sudo` role.
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+2. **Customize Variables**: If needed, modify the `commands` variable in your playbook or in the `defaults/main.yml` file.
 
-License
--------
+3. **Run the Playbook**: Execute your playbook to grant 'delphix_os' the specified command access.
 
-BSD
+```yaml
+# Example playbook usage
+- name: Playbook to Configure Sudo Access
+  hosts: your_target_hosts
+  roles:
+    - sudo
+```
 
-Author Information
-------------------
+## 📝 Example Playbook
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Here's a quick example playbook snippet:
+
+```yaml
+- name: Configure Sudo Access for Delphix
+  hosts: delphix_hosts
+  roles:
+    - sudo
+```
+
+## 🔑 Important Notes
+
+Granting sudo access should be done carefully and only for the necessary commands. Always ensure that the provided commands align with your security policies.
+
+Feel free to explore this role's tasks in the `tasks/main.yml` file for an in-depth look at the permissions being granted.
+
+## 📖 Always Refer to Delphix Documentation
+
+For updates, specific requirements, and customization according to different Delphix versions, it's recommended to refer to the official Delphix documentation at [docs.delphix.com](https://docs.delphix.com). The Delphix documentation will provide insights into changing variables, editing tasks, and adapting to evolving Delphix environments.
+
+Empower your 'delphix_os' user with the right permissions to carry out essential operations with ease!
+
+---
+**Pro Tip**: Double-check the list of commands to ensure that only essential operations are included. Keep an eye on the Delphix documentation for future updates and enhancements.
