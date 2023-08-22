@@ -1,10 +1,12 @@
+# This playbook extracts the public key located at '/home/ansible/.ssh/id_rsa.pub' and adds it to the 'authorized_key' file of the 'delphix_os' user.
+
 ---
 - name: copying ssh key and updating sudoers
   hosts: targets
   vars_prompt:
-  - name: target_os
-    prompt: Qual o usuário no destino?
-    private: false
+    - name: target_os
+      prompt: What is the target user?
+      private: false
   gather_facts: false
   remote_user: "{{ target_os }}"
   tasks:
@@ -14,4 +16,4 @@
         state: present
         key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
 
-# esse playbook extrai a chave pública localizada em '/home/ansible/.ssh/id_rsa.pub' e adiciona ao arquivo authorized_key do usuário 'delphix_os'
+
