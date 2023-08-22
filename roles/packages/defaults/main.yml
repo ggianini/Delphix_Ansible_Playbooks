@@ -1,2 +1,4 @@
 ---
-# defaults file for packages
+default_delphix_os: delphix
+default_toolkit_path: /home/delphix/toolkit 
+default_mount_path: /mnt/provision

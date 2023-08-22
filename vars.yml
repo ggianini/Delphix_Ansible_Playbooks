@@ -1,1 +1,4 @@
-# you can pass specific vars here
+---
+default_delphix_os: delphix
+default_toolkit_path: /home/delphix/toolkit 
+default_mount_path: /mnt/provision

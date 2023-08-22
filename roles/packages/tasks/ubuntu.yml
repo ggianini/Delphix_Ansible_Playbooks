@@ -1,0 +1,22 @@
+- name: Update apt cache for Debian/Ubuntu
+  apt:
+    update_cache: yes
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+
+- name: Install required packages on Ubuntu
+  apt:
+    name:
+      - wget
+      - curl
+      - unzip
+      - tar
+      - sudo
+      - jq
+      - openjdk-8-jdk    # Install Java 8 on Ubuntu
+      - net-tools
+      - telnet
+      - rpcbind          # Install Portmapper/RPCbind on Ubuntu
+      - nfs-common       # Install NFS client utilities on Ubuntu
+    state: present
+  when: ansible_distribution in ["Ubuntu", "Debian"]
+  

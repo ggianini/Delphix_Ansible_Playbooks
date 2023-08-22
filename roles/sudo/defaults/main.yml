@@ -1,0 +1,8 @@
+---
+commands:
+  - /bin/mount
+  - /bin/umount
+  - /bin/mkdir
+  - /bin/rmdir
+  - /bin/pargs
+  - /bin/ps

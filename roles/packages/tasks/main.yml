@@ -1,57 +1,9 @@
----
-- name: Update yum cache for Red Hat like OS
-  yum:
-    name: "*"
-    state: latest
-  when: ansible_distribution in ["RedHat", "CentOS", "OracleLinux"]
+# Install Packages depending on SO type
 
-- name: Install required packages on Red Hat
-  yum:
-    name:
-      - wget
-      - curl
-      - unzip
-      - tar
-      - sudo
-      - jq
-      - java-1.8.0-openjdk  # Install Java 8
-      - net-tools
-      - telnet
-      - rpcbind            # Install Portmapper/RPCbind
-      - nfs-utils
-    state: present
-  when: ansible_distribution in ["RedHat", "CentOS", "OracleLinux"]
+- name: Install packages
+  include_tasks: "{{ so_type }}.yml"
+  loop: ["redhat", "ubuntu"]
+  loop_control:
+    loop_var: so_type
+  when: ansible_service_mgr == "systemd"
 
-- name: Start and enable services for Red Hat like OS
-  systemd:
-    name: "{{ item }}"
-    state: started
-    enabled: yes
-  loop:
-    - rpcbind
-    - rpc-statd         # Start RPC Status Daemon
-  when: ansible_distribution in ["RedHat", "CentOS", "OracleLinux"]
-
-# Tasks for Debian/Ubuntu OS
-
-- name: Update apt cache for Debian/Ubuntu
-  apt:
-    update_cache: yes
-  when: ansible_distribution in ["Ubuntu", "Debian"]
-
-- name: Install required packages on Ubuntu
-  apt:
-    name:
-      - wget
-      - curl
-      - unzip
-      - tar
-      - sudo
-      - jq
-      - openjdk-8-jdk    # Install Java 8 on Ubuntu
-      - net-tools
-      - telnet
-      - rpcbind          # Install Portmapper/RPCbind on Ubuntu
-      - nfs-common       # Install NFS client utilities on Ubuntu
-    state: present
-  when: ansible_distribution in ["Ubuntu", "Debian"]

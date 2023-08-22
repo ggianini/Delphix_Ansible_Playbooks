@@ -2,23 +2,26 @@
 - hosts: targets
   gather_facts: true
   ignore_errors: true
+  vars_files:
+    - ./vars.yml
   vars_prompt:
-    - name: toolkit_path
-      prompt: "Enter the toolkit path (default: {{ default_toolkit_path }}):"
-      default: "{{ default_toolkit_path }}"
-      private: false
     - name: delphix_os
       prompt: "Enter the Delphix OS user:"
       default: "{{ default_delphix_os }}"
       private: false
+    - name: toolkit_path
+      prompt: "Enter the toolkit path:"
+      default: "{{ default_toolkit_path }}"
+      private: false
     - name: mount_path
-      prompt: "Enter the mount path (default: {{ default_mount_path }}):"
+      prompt: "Enter the mount path:"
       default: "{{ default_mount_path }}"
       private: false
 
   roles:
-          # - packages
-          #- networking
-          #- create-directories
-          #- toolkit_storage 
-    - misc
+   - sudo
+    #  - packages
+    #  - networking
+    #  - create-directories
+    #  - toolkit_storage 
+    #  - misc
