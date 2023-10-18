@@ -19,9 +19,9 @@
       private: false
 
   roles:
-    #  - sudo
+    - { role: sudo, become: yes }
     - packages
-    #  - networking
-    #  - create-directories
-    #  - toolkit_storage 
-    #  - misc
+    - { role: networking, become: yes}
+    - create-directories
+    - toolkit_storage 
+    - misc

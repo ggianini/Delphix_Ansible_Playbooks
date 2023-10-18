@@ -1,0 +1,27 @@
+- name: Copy SSH public key to authorized_keys for root user
+  hosts: targets
+  gather_facts: no
+
+  vars_prompt:
+  - name: target_os
+    prompt: What is the target user?
+    private: false
+  - name: target_pass
+    prompt: What is the target password?
+    private: true
+
+  tasks:
+    - name: Create .ssh directory if it does not exist
+      ansible.builtin.file:
+        path: "{{ '/home' if target_os != 'root' else '' }}/{{ target_os }}/.ssh"
+        state: directory
+        mode: '0700'
+
+    - name: Add SSH public key to authorized_keys
+      ansible.builtin.copy:
+        content: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub') }}"
+        dest: "{{ '/home' if target_os != 'root' else '' }}/{{ target_os }}/.ssh/authorized_keys"
+        owner: "{{ target_os }}"
+        group: "{{ target_os }}"
+        mode: '0600'
+

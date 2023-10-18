@@ -1,4 +1,5 @@
 ---
+default_delphix_os: delphix
 commands:
   - /bin/mount
   - /bin/umount

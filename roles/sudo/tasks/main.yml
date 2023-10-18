@@ -1,5 +1,5 @@
 - name: Configure delphix user for sudo
   lineinfile:
     dest: /etc/sudoers
-    line: "{{ delphix_user }} ALL=NOPASSWD: {{ commands | join(', ') }}"
+    line: "{{ delphix_os }} ALL=NOPASSWD: {{ commands | join(', ') }}"
     validate: "visudo -cf %s"
