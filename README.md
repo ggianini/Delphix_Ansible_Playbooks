@@ -8,7 +8,7 @@ Before you begin your Ansible journey, make sure you have the following prerequi
 
 1. 🌟 **Ansible Installation**: If you haven't installed Ansible yet, follow the official installation guide: [Installing Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html).
 
-2. 🔑 **SSH Keys**: Ensure that you have set up SSH keys for seamless communication with target hosts. (a playbook keys.yml is provided to make it easier to distribute Ansible's public key among hosts)
+2. 🔑 **SSH Keys**: Ensure that you have set up SSH keys for seamless communication with target hosts. (a playbook import-keys.yaml is provided to make it easier to distribute Ansible's public key among hosts)
 
 ## 📚 Documentation
 
@@ -30,7 +30,7 @@ Let's explore the structure of this repository:
 
 - 📁 `ansible.cfg`: Ansible configuration file.
 - 📁 `inventory`: Directory containing information about target hosts.
-- 📄 `keys.yml`: Provides Ansible with SSH access to remote hosts by distributing the public key.
+- 📄 `import-keys.yaml`: Provides Ansible with SSH access to remote hosts by distributing the public key.
 - 📂 `roles`: Organized roles for different tasks.
 - 📄 `test.yml`: A playbook for testing purposes.
 - 📄 `vars.yml`: Store your playbook's variables and configurations.
